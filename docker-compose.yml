@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: rs_harapan_sehat
+    volumes:
+      - ./sql_init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./flags:/flags:ro
+    ports:
+      - "3307:3306"
+  web:
+    image: php:8.1-apache
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - TZ=Asia/Jakarta
+    command: bash -c "docker-php-ext-install mysqli && apache2-foreground"

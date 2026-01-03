@@ -1,0 +1,1 @@
+ambil data di rahasia/flag_trv_dl.txt
